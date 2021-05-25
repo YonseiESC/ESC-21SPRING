@@ -1,0 +1,191 @@
+---
+title: "Preprocessing"
+author: "Seungjun Lee"
+date: '2021 5 25 '
+output: html_document
+---
+```{r setup, include=FALSE}
+setwd("C:/Users/seungjun/Desktop/4학년 1학기/베이즈정리")
+data = read.csv("ml_case_training_data.csv")
+library("tidyverse")
+library("corrplot")
+attach(data)
+dim(data)
+summary(data)
+colnames(data)
+
+```
+## 간단한 목차
+### 1. 각 변수의 요약통계량 또는 히스토그램
+### 2. 변수간의 관계
+#### 2-1. y변수간의 상관성
+#### 2-2. x변수간의 상관성
+### 3. 기타  
+  
+### 1. 각 변수의 요약통계량 또는 히스토그램  
+```{r}
+# has_gas
+summary(has_gas)
+table(has_gas)
+ggplot(data, aes(x=has_gas))+
+  geom_histogram(binwidth = 0.2,bins=2)+
+  scale_x_continuous(breaks =c(0:1))+
+  ggtitle("Histogram of Has_gas")+
+  theme(plot.title = element_text(hjust =0.5))
+```
+
+```{r}
+# imp_cons : 소비량인데 음수가 존재한다.
+summary(imp_cons)
+
+ggplot(data, aes(x=imp_cons))+
+  geom_histogram(bins=30)+
+  ggtitle("Histogram of imp_cons")+
+  theme(plot.title = element_text(hjust =0.5))
+
+ggplot(data, aes(x=imp_cons, group=has_gas))+
+  geom_boxplot()
+
+
+data %>% select(has_gas,imp_cons) %>% filter(has_gas==1) %>% select(imp_cons) %>% summarise(mean_imp_gas1 = mean(imp_cons)) # has_gas =1 일 때 imp_cons의 평균
+data %>% select(has_gas,imp_cons) %>% filter(has_gas==0) %>% select(imp_cons) %>% summarise(mean_imp_gas0 = mean(imp_cons)) # has_gas =0 일 때 imp_cons의 평균
+
+```
+
+```{r}
+# margin_gross_pow_ele : NA 9개
+summary(margin_gross_pow_ele)
+
+ggplot(data, aes(x=margin_gross_pow_ele))+
+  geom_histogram()+
+  ggtitle("Histogram of margin_gross_pow_ele")+
+  theme(plot.title = element_text(hjust =0.5))
+
+```
+
+
+```{r}
+# margin_net_pow_ele : NA 9개
+summary(margin_net_pow_ele)
+
+ggplot(data, aes(x=margin_net_pow_ele))+
+  geom_histogram()+
+  ggtitle("Histogram of margin_net_pow_ele")+
+  theme(plot.title = element_text(hjust =0.5))
+```
+
+
+```{r}
+# nb_prod_act : 대부분 1로 보인다. 좌우비대칭이 제일 심하다. 근데 로지스틱으로 하는거면 상관없나..?
+summary(nb_prod_act)
+table(nb_prod_act)
+
+ggplot(data, aes(x=nb_prod_act))+
+  geom_histogram()+
+  ggtitle("Histogram of nb_prod_act")+
+  theme(plot.title = element_text(hjust =0.5))
+```
+
+### 2. 변수 간의 관계  
+일단 숫자형 변수만을 골라냈고, 이후 결측치가 많은 forecast~ 들의 변수는 제거하고 나머지 변수끼리 상관관계를 살펴봄.  
+```{r}
+# 변수간 상관계수 확인
+for_cor = data %>% select(-c(id,activity_new,channel_sales,origin_up,
+                             forecast_base_bill_ele,forecast_base_bill_year,forecast_bill_12m,forecast_cons))%>% na.omit()
+
+dim(for_cor)
+# 그렇게 많이 감소하진 않았다.
+dim(data)
+# cor(for_cor) 시각적으로 살펴보기
+# corrplot(cor(for_cor), method="number") # 그림이 잘 안보여서 이미지 파일로 업로드
+
+```
+![](corrplot.png)
+```{r}
+cor(for_cor)[,"churn"]
+
+```
+
+#### 2-1. y변수간의 상관성  
+이후 본인이 맡은 변수들과 churn과의 관계를 한번 살펴봄.    
+```{r}
+gas0_churn = for_cor %>% filter(has_gas ==0) %>% select(churn)
+table(gas0_churn)
+
+ggplot(gas0_churn,aes(x=churn))+
+  geom_histogram()+
+  ggtitle("Histogram of chrun | has_gas=0")
+```
+```{r}
+gas1_churn = for_cor %>% filter(has_gas ==1) %>% select(churn)
+table(gas1_churn)
+
+ggplot(gas1_churn,aes(x=churn))+
+  geom_histogram()+
+  ggtitle("Histogram of chrun | has_gas=1")
+
+```
+```{r}
+ggplot(for_cor,aes(x=churn, y = imp_cons))+
+  geom_point()+
+  ggtitle("Scatter plot of 'imp_cons' vs 'churn'")
+
+ggplot(for_cor,aes(x=imp_cons, group = churn))+
+  geom_boxplot()+
+  ggtitle("Boxplot of 'imp_cons' vs 'churn'")
+```
+```{r}
+ggplot(for_cor,aes(x=margin_gross_pow_ele, y = churn))+
+  geom_point()+
+  ggtitle("Scatter plot of 'margin_gross_pow_ele' vs 'churn'")
+
+ggplot(for_cor,aes(x=margin_gross_pow_ele, group = churn))+
+  geom_boxplot()+
+  ggtitle("Boxplot of 'margin_gross_pow_ele' vs 'churn'")
+
+```
+
+```{r}
+ggplot(for_cor,aes(x=margin_net_pow_ele, y = churn))+
+  geom_point()+
+  ggtitle("Scatter plot of 'margin_net_pow_ele' vs 'churn'")
+
+ggplot(for_cor,aes(x=margin_net_pow_ele, group = churn))+
+  geom_boxplot()+
+  ggtitle("Boxplot of 'margin_net_pow_ele' vs 'churn'")
+
+```
+```{r}
+table(for_cor$nb_prod_act,for_cor$churn)
+```
+  
+#### 2-2. x변수간의 상관성   
+이후 상관관계를 파악했을 때 상관관계가 높아보이는 변수끼리 관계를 한번 더 파악해봄.  
+```{r}
+# imp_cons # forecast_cons_year
+# imp_cons # forecast_cons_12m
+# margin_net_pow_ele # margin_gross_pow_ele
+ggplot(for_cor,aes(x=imp_cons, y = forecast_cons_year))+
+  geom_point()+
+  ggtitle("Scatter plot of 'imp_cons' vs 'forecat_cons_year'")
+cor(for_cor$imp_cons,for_cor$forecast_cons_year)
+###
+ggplot(for_cor,aes(x=imp_cons, y = forecast_cons_12m))+
+  geom_point()+
+  ggtitle("Scatter plot of 'imp_cons' vs 'forecast_cons_12m'")
+cor(for_cor$imp_cons,for_cor$forecast_cons_12m)
+
+ggplot(for_cor,aes(x=imp_cons, y = forecast_cons_12m,color = has_gas))+
+  geom_point()+
+  ggtitle("Scatter plot of 'imp_cons' vs 'forecast_cons_12m'")
+cor(for_cor$imp_cons,for_cor$forecast_cons_12m)
+###
+ggplot(for_cor,aes(x=margin_net_pow_ele, y = margin_gross_pow_ele))+
+  geom_point()+
+  ggtitle("Scatter plot of 'margin_net_pow_ele' vs 'margin_gross_pow_ele'")
+cor(for_cor$margin_net_pow_ele,for_cor$margin_gross_pow_ele)
+```
+결론적으로,  
+margin_net_pow_ele와 margin_gross_pow_ele 둘 중에 하나는 빼는 것이 좋을 듯하다. imp_cons와 forecast_cons_year 또한 하나만 이용해도 될 듯히다. 결측치는 별로 없기 때문에 결측치가 유난히 많았던 forcast 몇몇 변수 빼고는 그냥 결측치를 빼고 해도 무방할 듯하다. (50개밖에 감소하지 않는다.)  
+  
+outlier에 관해서는 어떻게 해야할까요..?
