@@ -10,7 +10,7 @@ Goal - 고객 이탈 예측 / 모델을 근거로 상업적 행동 제안 - (가
 - NA 없음
 - not much correlation-Pearson's r
 
-![1](/Users/kwanseok/ESC-21SPRING/파이널과제/img/1.png)
+![1](/img/1.png)
 
 <img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/1-1.png" alt="1-1" style="zoom: 50%;" />
 
