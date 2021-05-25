@@ -30,7 +30,7 @@ Goal - 고객 이탈 예측 / 모델을 근거로 상업적 행동 제안 - (가
 
 - correlation w/ forecast_price_energy_p1(-), p2(+), pow_max(+)
 
-![2](/Users/kwanseok/ESC-21SPRING/파이널과제/img/2.png)
+![2](/ESC-21SPRING/Final Project/3조/EDA/img/2.png)
 
 ![2-1](/Users/kwanseok/ESC-21SPRING/파이널과제/img/2-1.png)
 
