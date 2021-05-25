@@ -10,11 +10,11 @@ Goal - 고객 이탈 예측 / 모델을 근거로 상업적 행동 제안 - (가
 - NA 없음
 - not much correlation-Pearson's r
 
-![1](/img/1.png)
+![1](img/1.png)
 
-<img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/1-1.png" alt="1-1" style="zoom: 50%;" />
+<img src="img/1-1.png" alt="1-1" style="zoom: 50%;" />
 
-<img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/1-3.png" alt="1-3" style="zoom: 67%;" />
+<img src="img/1-3.png" alt="1-3" style="zoom: 67%;" />
 
 
 
@@ -26,15 +26,15 @@ Goal - 고객 이탈 예측 / 모델을 근거로 상업적 행동 제안 - (가
 
   -> 앞에 5개 값 정도 제거해 주면 괜찮을 것 같다. 2411일 때는 churn이 1이긴 함.
 
-<img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/1-4.png" alt="1-4" style="zoom:50%;" />
+<img src="img/1-4.png" alt="1-4" style="zoom:50%;" />
 
 - correlation w/ forecast_price_energy_p1(-), p2(+), pow_max(+)
 
 ![2](img/2.png)
 
-![2-1](/Users/kwanseok/ESC-21SPRING/파이널과제/img/2-1.png)
+![2-1](img/2-1.png)
 
-<img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/2-2.png" alt="2-2" style="zoom: 67%;" /> 뒤에 큰 값들 자르고 보면 왼쪽과 같은 histogram 얻음.
+<img src="img/2-2.png" alt="2-2" style="zoom: 67%;" /> 뒤에 큰 값들 자르고 보면 왼쪽과 같은 histogram 얻음.
 
 #### forecast_price_energy_p1 - forecasted energy price for 1st period
 
@@ -44,17 +44,17 @@ Goal - 고객 이탈 예측 / 모델을 근거로 상업적 행동 제안 - (가
 
 - Outlier: 0근처와 0.25 근방에 보이긴 함.
 
-  <img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/2-5.png" alt="2-5" style="zoom:33%;" /> 
+  <img src="img/2-5.png" alt="2-5" style="zoom:33%;" /> 
 
   정규분포 가정일 때 z-score 3이상인 곳을 robust하게 보면, 그런 값들이 없음. 걍 다 써도 괜찮을 것 같음.
 
-<img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/2-4.png" alt="2-4" style="zoom:50%;" />
+<img src="img/2-4.png" alt="2-4" style="zoom:50%;" />
 
-![3](/Users/kwanseok/ESC-21SPRING/파이널과제/img/3.png)
+![3](img/3.png)
 
-![3-1](/Users/kwanseok/ESC-21SPRING/파이널과제/img/3-1.png)
+![3-1](img/3-1.png)
 
-<img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/3-2.png" alt="3-2" style="zoom:50%;" />
+<img src="img/3-2.png" alt="3-2" style="zoom:50%;" />
 
 
 
@@ -66,13 +66,13 @@ forecast_price_energy_p2 - forecasted energy price for 2nd period
 
 - Outlier: boxplot 상으로 whisker 밖의 점들이 없으므로 그냥 써도 괜찮을 것 같음.
 
-  <img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/3-3.png" alt="3-3" style="zoom:50%;" />
+  <img src="img/3-3.png" alt="3-3" style="zoom:50%;" />
 
-![4](/Users/kwanseok/ESC-21SPRING/파이널과제/img/4.png)
+![4](img/4.png)
 
-![4-1](/Users/kwanseok/ESC-21SPRING/파이널과제/img/4-1.png)
+![4-1](img/4-1.png)
 
-<img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/4-2.png" alt="4-2" style="zoom:50%;" />
+<img src="img/4-2.png" alt="4-2" style="zoom:50%;" />
 
 forecast_price_pow_p1 - forecasted power price for 1st period
 
@@ -86,29 +86,29 @@ forecast_price_pow_p1 - forecasted power price for 1st period
 
   -> 분석 시에 많은 영향을 미친다면 제거하는 방향도 고려! (churn 값이 1인 경우는 없기도 함)
 
-<img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/5-3.png" alt="5-3" style="zoom:50%;" />
+<img src="img/5-3.png" alt="5-3" style="zoom:50%;" />
 
-![5](/Users/kwanseok/ESC-21SPRING/파이널과제/img/5.png)
+![5](img/5.png)
 
-![5-1](/Users/kwanseok/ESC-21SPRING/파이널과제/img/5-1.png)
+![5-1](img/5-1.png)
 
-<img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/5-2.png" alt="5-2" style="zoom:50%;" />
+<img src="img/5-2.png" alt="5-2" style="zoom:50%;" />
 
 #### Correlation 있다고 한 것들 Interactions
 
 P1 and 12m
 
-<img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/6.png" alt="6" style="zoom:67%;" />
+<img src="img/6.png" alt="6" style="zoom:67%;" />
 
 
 
 P2 and 12m
 
-<img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/6-1.png" alt="6-1" style="zoom:50%;" />
+<img src="img/6-1.png" alt="6-1" style="zoom:50%;" />
 
 12m and pow_max
 
-<img src="/Users/kwanseok/ESC-21SPRING/파이널과제/img/6-3.png" alt="6-3" style="zoom:50%;" />
+<img src="img/6-3.png" alt="6-3" style="zoom:50%;" />
 
 #### NA imputation
 
@@ -122,7 +122,7 @@ NA 너무 많은 열은 imputation하거나 그 열 전체를 버리는 등의 �
 
 imputation의 경우는 중간에 배운 mice 방법 활용할 수도? (Bayes session 중에)
 
-![7](/Users/kwanseok/ESC-21SPRING/파이널과제/img/7.png)
+![7](img/7.png)
 
 
 
