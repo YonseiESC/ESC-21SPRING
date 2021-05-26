@@ -1,0 +1,131 @@
+---
+title: "EDA"
+author: "박한빈"
+date: '2021 5 26 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data import
+
+```{r}
+setwd("C:/Users/bin81/Google 드라이브(2016122021@yonsei.ac.kr)/4학년 1학기/ESC활동/파이날 프로젝트")
+raw_data <- read.csv('ml_case_training_data.csv')
+```
+
+```{r, include = F}
+library(corrplot)
+```
+
+
+## Forecast data 추출
+
+```{r}
+
+head(raw_data[,c(11:16)])
+
+```
+
+## 전체데이터 수와 NA의 수 파악
+
+```{r}
+
+length(raw_data[,1]) ## 전체데이터 수
+
+sum(is.na(raw_data$forecast_base_bill_ele)) ## NA의 수 
+
+length(raw_data[,1]) - sum(is.na(raw_data$forecast_base_bill_ele)) ## 존재하는 데이터의 수
+
+```
+
+## NA를 제외한 데이터를 가지고 각 데이터 간의 상관관계를 분석
+
+```{r}
+cor_data = raw_data[,c(11,12,13,14,15,16)][is.na(raw_data$forecast_bill_12m) == FALSE,]
+cor_data <- cor(cor_data)
+corrplot(cor_data, method="number")
+```
+
+#### forecast 변수들은 전체적으로 상관계수가 굉장히 높게 나타나는 것을 확인할 수 있다. 이대로 그냥 변수를 사용하면 다중공선성 문제를 일으킬 것이 예상된다. 따라서 그냥 처음부터 NA없이 모든 데이터가 있는 forecast_cons_year 변수 하나만 남겨서 사용하기로 하고 나머지 변수들은 제거하기로 했다.
+
+## forecast_cons_year 변수의 garph 
+
+```{r}
+boxplot(raw_data$forecast_cons_year)
+plot(raw_data$forecast_cons_year)
+```
+
+#### 현재 그래프를 보면 변수가 소비량인데, 음수가 나오고 있는 것을 확인할 수 있다. 이런 음수에 대해서는 절댓값을 취해서 사용하기로 결정하였다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
