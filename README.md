@@ -53,6 +53,9 @@ https://youtu.be/THx1ka9KWog
 [ESC 2021-1] 210520 Week9 Bayesian Model Selection <br>
 https://youtu.be/0yaCRqLjapk
 
+[ESC 2021-1] 210520 Week10 Final project mid presentation <br>
+https://youtu.be/0wYDHO7z_pw
+
 ## 학술부 세션 영상 링크
 [ESC 2021-1] 210302 Week1<br>
 https://youtu.be/8_rbUy3rbD0
