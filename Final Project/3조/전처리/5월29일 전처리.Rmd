@@ -1,0 +1,67 @@
+---
+title: "preprocessing_final_project"
+author: "Seungjun Lee"
+date: '2021 5 29 '
+output:
+  html_document: default
+  pdf_document: default
+---
+```{r,include = FALSE}
+setwd("C:/Users/seungjun/Desktop/4학년 1학기/베이즈정리")
+data = read.csv("ml_case_training_data.csv")
+dim(data)
+summary(data)
+colnames(data)
+library("tidyverse")
+library("corrplot")
+```
+
+```{r}
+
+
+# origin up은 피피티에 언급안되어 있으나 일단 뺐습니다.
+# 이게 생각보다 어떤 변수를 빼야하는지 명확하게 언급이 안되어 있어서 (특히 forcast part) 일단 NA많은 forecast는 전부 뺐습니다.
+# 혹시 빼면 안되는 변수가 있는데 뺐으면 알려주세요..!
+
+#channel_sales는 일단 빼서 수치형 자료만 남겼습니다.
+# selected_data의 모든 값에 절댓값을 취해주고 나중에 다시 데이터에 channel_sales열을 넣었습니다.
+selected_data = data %>% select(-c(id,activity_new,origin_up,forecast_base_bill_ele,forecast_base_bill_year,
+                                   forecast_bill_12m,forecast_meter_rent_12m,forecast_cons,forecast_price_energy_p1,
+                                   forecast_price_energy_p2,forecast_price_pow_p1,imp_cons ,margin_gross_pow_ele,num_years_antig,
+                                   channel_sales))
+head(selected_data)
+summary(selected_data) # 결측치가 별로 없다.
+
+# 모든 값에 절댓값 취해주기
+selected_data = abs(selected_data)
+dim(selected_data)
+
+
+# channel_sales 값이 일단 너무 길어서 factor로만 바꿔봤습니다.
+# factor 자체에 order가 있는건 아니고 그냥 일단 임의로 바꿨습니다.
+
+table(data$channel_sales) # 8개의 종류 확인
+levels(data$channel_sales) = as.factor(1:8)
+levels(data$channel_sales)
+
+# channels_sales와 합친 후 결측치 전부 제거
+selected_data = na.omit(cbind(selected_data,channel_sales = data$channel_sales)) 
+dim(selected_data) # 11개의 데이터가 제거되었다.
+summary(selected_data)
+
+
+numeric = selected_data %>% select(-channel_sales)
+cor = cor(numeric)
+corrplot(cor,method='number')
+
+
+ggplot(selected_data, aes(x=cons_12m,y=cons_last_month))+
+         geom_point() # 상관계수 : 0.93
+
+ggplot(selected_data, aes(x=forecast_cons_12m,y=forecast_cons_year))+
+  geom_point() # 상관계수 : 0.75
+
+ggplot(selected_data, aes(x=forecast_cons_12m,y=net_margin))+
+  geom_point() # 상관계수 : 0.8
+```
+
