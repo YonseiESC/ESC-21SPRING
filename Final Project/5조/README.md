@@ -6,3 +6,5 @@
   - https://public.tableau.com/profile/haninwook#!/vizhome/Book1_16216167187690/Final1
 - 2차 변수 Coef 비교 시각화
   - https://public.tableau.com/app/profile/haninwook/viz/BayesVsFreq/Dashboard1
+- 2차 NAN 결측치 채운 지도 시각화
+  - https://public.tableau.com/app/profile/haninwook/viz/2_16225536001990/sheet0
